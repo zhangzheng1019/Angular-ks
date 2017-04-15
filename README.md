@@ -9,7 +9,7 @@ npm install
 ```
 gulp
 ```
-- **文件目录**
+# Dir
 ```
 |--build：上传到服务器的文件
   |--css
