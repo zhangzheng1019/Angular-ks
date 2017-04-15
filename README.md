@@ -35,7 +35,7 @@ gulp
 |-gulpfile.js：gulp配置文件
 |-package.json：npm初始化文件
 ```
-- **思路**  
+# 思路  
 1、npm初始化  
 2、安装gulp，以及依赖  
 3、编写配置文件  
