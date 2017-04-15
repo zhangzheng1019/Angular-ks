@@ -1,7 +1,5 @@
 <div class="m_nav">
     <ul>
-        <li ui-sref="new"><a href="#" class="btn btn-success btn-group-sm">最新动态</a></li>
-        <li ui-sref="intro"><a href="#" class="btn btn-success btn-group-sm">简介</a></li>
-        <li ui-sref="message"><a href="#" class="btn btn-success btn-group-sm">消息</a></li>
+        <li ng-repeat="item in data" ui-sref="{{item.key}}"><a href="#" class="btn btn-success btn-group-sm">{{item.tab}}</a></li>
     </ul>
 </div>

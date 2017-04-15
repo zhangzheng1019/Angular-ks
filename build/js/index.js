@@ -3,23 +3,32 @@ angular.module("myApp", ['ui.router']);
 
 "use strict";
 angular.module('myApp')
-    .controller('mainCtrl', ['$scope', 'fansService', function($scope, fansService) {
-        $scope.fansData = fansService.getUser();
-        $scope.currentUserData = fansService.getCurrentUser();
+    .controller('mainCtrl', ['$scope', 'myService', function($scope, myService) {
+        $scope.fansData = myService.getUser();
+        $scope.currentUserData = myService.getCurrentUser();
+        $scope.tabs = myService.getTab();
+    }])
+    .controller('newCtrl', ['$scope', 'myService', function($scope, myService) {
+        $scope.currentUserData = myService.getCurrentUser();
+    }])
+    .controller('introCtrl', ['$scope', function($scope) {
 
     }])
-    .controller('newCtrl', ['$scope', function($scope) {
-
-
-    }])
-    .controller('introCtrl', ['$scope', 'fansService', function($scope, fansService) {
-
-    }])
-    .controller('messageCtrl', ['$scope', 'fansService', function($scope, fansService) {
+    .controller('messageCtrl', ['$scope', function($scope) {
 
     }])
 
 "use strict";
+var tabs = [{
+    'key': 'new',
+    'tab': '最新动态'
+}, {
+    'key': 'intro',
+    'tab': '简介'
+}, {
+    'key': 'message',
+    'tab': '消息'
+}]
 var currentUser = {
     'id': 0,
     'name': '张政',
@@ -126,7 +135,7 @@ angular.module('myApp')
                 sco.follow = function() {
                     sco.followClick ? sco.data.fansnum-- : sco.data.fansnum++;
                     sco.followClick = !sco.followClick;
-                    sco.followMes = sco.followMes == "取消关注" ? "关注" : "取消关注";
+                    sco.followMes = sco.followMes == "已关注" ? "关注" : "已关注";
                 }
             }
         }
@@ -159,23 +168,42 @@ angular.module('myApp')
         return {
             restrict: 'A',
             replace: true,
+            scope: {
+                data: '='
+            },
             templateUrl: 'view/template/tab.html'
+        }
+    }])
+    .directive('appReply', ['$compile', function($compile) {
+        return {
+            restrict: 'A',
+            repalce: true,
+            scope: {
+                data: '='
+            },
+            templateUrl: 'view/template/reply.html',
+            link: function(sco, ele, attr) {
+                sco.submitReplyMes = function(mes) {
+                    sco.thumb = sco.data.thumb;
+                    console.log(sco.thumb)
+                    sco.name = sco.data.name;
+                    console.log(sco.name)
+                    if (mes != undefined) {
+                        sco.o_comment = angular.element($('.comment'));
+                        sco.o_content = '<div class="m-l-lg"><a class="pull-left thumb-sm avatar"><img ng-src="{{' + sco.thumb + '}}" alt="..."></a><div class="m-l-xxl panel b-a"><div class="panel-heading pos-rlt"><span class="arrow left pull-up"></span><span class="text-muted m-l-sm pull-right"> 10 m ago </span> <a href="" ng-bind="' + sco.name + '"></a><span>' + mes + '</span></div> </div> </div>';
+                        $compile(sco.o_content)(sco);
+                        sco.o_comment.append(sco.o_content);
+                    } else {
+                        alert('评论内容为空');
+                    }
+                }
+            }
         }
     }])
 
 "use strict";
 angular.module('myApp').filter('fanList', [function() {
-    return function(data, count) {
-        if (angular.isArray(data) && angular.isNumber(count)) {
-            if (count > data.length || count < 1) {
-                return data;
-            } else {
-                return data.slice(count);
-            }
-        } else {
-            return data;
-        }
-    }
+
 }])
 
 "use strict";
@@ -197,13 +225,16 @@ angular.module('myApp').config(['$stateProvider', '$urlRouterProvider', function
 }]);
 
 "use strict";
-angular.module('myApp').factory('fansService', [function() {
+angular.module('myApp').factory('myService', [function() {
     return {
         getUser: function() {
             return userInfo;
         },
         getCurrentUser: function() {
             return currentUser;
+        },
+        getTab: function() {
+            return tabs;
         }
     }
 }]);
