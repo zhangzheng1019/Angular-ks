@@ -1,4 +1,14 @@
 "use strict";
+var tabs = [{
+    'key': 'new',
+    'tab': '最新动态'
+}, {
+    'key': 'intro',
+    'tab': '简介'
+}, {
+    'key': 'message',
+    'tab': '消息'
+}]
 var currentUser = {
     'id': 0,
     'name': '张政',

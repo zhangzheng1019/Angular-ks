@@ -1,17 +1,16 @@
 "use strict";
 angular.module('myApp')
-    .controller('mainCtrl', ['$scope', 'fansService', function($scope, fansService) {
-        $scope.fansData = fansService.getUser();
-        $scope.currentUserData = fansService.getCurrentUser();
+    .controller('mainCtrl', ['$scope', 'myService', function($scope, myService) {
+        $scope.fansData = myService.getUser();
+        $scope.currentUserData = myService.getCurrentUser();
+        $scope.tabs = myService.getTab();
+    }])
+    .controller('newCtrl', ['$scope', 'myService', function($scope, myService) {
+        $scope.currentUserData = myService.getCurrentUser();
+    }])
+    .controller('introCtrl', ['$scope', function($scope) {
 
     }])
-    .controller('newCtrl', ['$scope', function($scope) {
-
-
-    }])
-    .controller('introCtrl', ['$scope', 'fansService', function($scope, fansService) {
-
-    }])
-    .controller('messageCtrl', ['$scope', 'fansService', function($scope, fansService) {
+    .controller('messageCtrl', ['$scope', function($scope) {
 
     }])

@@ -35,19 +35,19 @@ angular.module('myApp')
             },
             templateUrl: 'view/template/info.html',
             link: function(sco, ele, attr) {
-                sco.supportMes = "Ö§³ÖËû£¡";
+                sco.supportMes = "æ”¯æŒä»–ï¼";
                 sco.supportClick = false;
                 sco.followClick = false;
-                sco.followMes = "¹Ø×¢";
+                sco.followMes = "å…³æ³¨";
                 sco.support = function() {
                     sco.supportClick ? sco.data.star-- : sco.data.star++;
                     sco.supportClick = !sco.supportClick;
-                    sco.supportMes = sco.supportMes == "È¡ÏûµãÔŞ" ? "Ö§³ÖËû£¡" : "È¡ÏûµãÔŞ";
+                    sco.supportMes = sco.supportMes == "å–æ¶ˆç‚¹èµ" ? "æ”¯æŒä»–ï¼" : "å–æ¶ˆç‚¹èµ";
                 }
                 sco.follow = function() {
                     sco.followClick ? sco.data.fansnum-- : sco.data.fansnum++;
                     sco.followClick = !sco.followClick;
-                    sco.followMes = sco.followMes == "È¡Ïû¹Ø×¢" ? "¹Ø×¢" : "È¡Ïû¹Ø×¢";
+                    sco.followMes = sco.followMes == "å·²å…³æ³¨" ? "å…³æ³¨" : "å·²å…³æ³¨";
                 }
             }
         }
@@ -80,6 +80,35 @@ angular.module('myApp')
         return {
             restrict: 'A',
             replace: true,
+            scope: {
+                data: '='
+            },
             templateUrl: 'view/template/tab.html'
+        }
+    }])
+    .directive('appReply', ['$compile', function($compile) {
+        return {
+            restrict: 'A',
+            repalce: true,
+            scope: {
+                data: '='
+            },
+            templateUrl: 'view/template/reply.html',
+            link: function(sco, ele, attr) {
+                sco.submitReplyMes = function(mes) {
+                    sco.thumb = sco.data.thumb;
+                    console.log(sco.thumb)
+                    sco.name = sco.data.name;
+                    console.log(sco.name)
+                    if (mes != undefined) {
+                        sco.o_comment = angular.element($('.comment'));
+                        sco.o_content = '<div class="m-l-lg"><a class="pull-left thumb-sm avatar"><img ng-src="{{' + sco.thumb + '}}" alt="..."></a><div class="m-l-xxl panel b-a"><div class="panel-heading pos-rlt"><span class="arrow left pull-up"></span><span class="text-muted m-l-sm pull-right"> 10 m ago </span> <a href="" ng-bind="' + sco.name + '"></a><span>' + mes + '</span></div> </div> </div>';
+                        $compile(sco.o_content)(sco);
+                        sco.o_comment.append(sco.o_content);
+                    } else {
+                        alert('è¯„è®ºå†…å®¹ä¸ºç©º');
+                    }
+                }
+            }
         }
     }])
