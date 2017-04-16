@@ -183,16 +183,17 @@ angular.module('myApp')
             },
             templateUrl: 'view/template/reply.html',
             link: function(sco, ele, attr) {
+                var thumb = sco.data.thumb;
+                var name = sco.data.name;
+                var date = new Date();
+                var now = date.getFullYear() + '/' + (date.getMonth() + 1) + '/' + date.getDate() + ' ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds();
                 sco.submitReplyMes = function(mes) {
-                    sco.thumb = sco.data.thumb;
-                    console.log(sco.thumb)
-                    sco.name = sco.data.name;
-                    console.log(sco.name)
                     if (mes != undefined) {
-                        sco.o_comment = angular.element($('.comment'));
-                        sco.o_content = '<div class="m-l-lg"><a class="pull-left thumb-sm avatar"><img ng-src="{{' + sco.thumb + '}}" alt="..."></a><div class="m-l-xxl panel b-a"><div class="panel-heading pos-rlt"><span class="arrow left pull-up"></span><span class="text-muted m-l-sm pull-right"> 10 m ago </span> <a href="" ng-bind="' + sco.name + '"></a><span>' + mes + '</span></div> </div> </div>';
-                        $compile(sco.o_content)(sco);
-                        sco.o_comment.append(sco.o_content);
+                        var o_comment = angular.element($('.comment'));
+                        var html = '<div class="m-l-lg"><a class="pull-left thumb-sm avatar"><img ng-src="' + thumb + '" alt="..."></a><div class="m-l-xxl panel b-a"><div class="panel-heading pos-rlt"><span class="arrow left pull-up"></span><span class="text-muted m-l-sm pull-right">' + now + ' </span> <a href="#">' + name + '</a>&nbsp;<span>' + mes + '</span></div> </div> </div>';
+                        var template = angular.element(html);
+                        var o_content = $compile(template)(sco);
+                        o_comment.append(o_content);
                     } else {
                         alert('评论内容为空');
                     }
