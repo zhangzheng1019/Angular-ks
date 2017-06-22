@@ -16,6 +16,10 @@
   - **添加动画效果**
 
 # Use it
+- **clone到本地**
+```
+git clone https://github.com/zhangzheng1019/Angular-ks.git
+```
 - **安装依赖**
 ```
 npm install
